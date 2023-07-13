@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <base target="_top">
+      <script>
+
+        // VisionAPIにリクエストを送り結果を受け取る関数
+         function callVisionAPI(){
+           var status = document.getElementById('status'); 
+           var imgUrl = document.getElementById('imgUrl');
+           status.innerHTML = "<b>VISION API で解析中... imgUrl: </b>" + imgUrl.value;
+           console.log("Calling Vision API w/ imgUrl: " + imgUrl.value);
+           google.script.run
+             .withFailureHandler(function(error) {
+               status.innerHtml = 'Error calling server function makeRequest: ' + error;
+             })
+             .withSuccessHandler(function(result){
+             console.log('Raw response from Vision API: ' + result);
+               var JResp =  JSON.parse(result); 
+               showResponse(JResp, imgUrl.value);
+           }).makeRequest(imgUrl.value);  
+         }
+         
+         // 受け取ったjsonをHTMLに反映する関数
+         // status.innerHTMLが結果として表示される
+         function showResponse(JSON, imgUrl){
+           var status = document.getElementById('status');
+           var imgTag = document.getElementById('ImgTag');
+           if (typeof(JSON['responses'][0]['labelAnnotations']) != "undefined"){
+             var msg ='<ul>'
+             for (var i = 0; i < JSON['responses'][0]['labelAnnotations'].length; i++) {
+              var textResp = JSON['responses'][0]['labelAnnotations'][i];
+              var description = textResp["description"];
+              var score = textResp['score'];
+              
+              msg +=  '<li>' + description +'</li>';
+            }
+             msg +='</ul>'
+
+            status.innerHTML =  msg
+            imgTag.src = imgUrl;   
+           } else
+             status.innerHTML = '画像の分析ができませんでした。';
+         }
+             
+      </script>
+   </head>
+   <body>
+      <h2>Google Cloud Vision API Sample</h2>
+      <h3>Label Annotations</h3>
+      <div>
+         <input id="imgUrl" type="text" placeholder="http://<<URL of image>>" size="80"/>
+         <button onClick="callVisionAPI()">Call Vision API</button>
+      </div>
+      <br/>
+      <div>
+         <image id="ImgTag" height="400" width="600"/>
+      </div>
+      <br/>
+      <div id="status"></div>
+   </body>
+</html>

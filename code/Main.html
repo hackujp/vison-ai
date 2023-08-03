@@ -4,7 +4,7 @@
       <base target="_top">
       <script>
 
-        // VisionAPIにリクエストを送り結果を受け取る関数
+        // VisonAPIにリクエストを送り結果を受け取る関数
          function callVisionAPI(){
            var status = document.getElementById('status'); 
            var imgUrl = document.getElementById('imgUrl');
@@ -46,8 +46,8 @@
       </script>
    </head>
    <body>
-      <h2>Google Cloud Vision API Sample</h2>
-      <h3>Label Annotations</h3>
+      <h2>画像認識AIを使ってみよう ハンズオン</h2>
+      <h3>画像のURLを入力</h3>
       <div>
          <input id="imgUrl" type="text" placeholder="http://<<URL of image>>" size="80"/>
          <button onClick="callVisionAPI()">Call Vision API</button>
@@ -57,6 +57,7 @@
          <image id="ImgTag" height="400" width="600"/>
       </div>
       <br/>
+      <h3>分析結果</h3>
       <div id="status"></div>
    </body>
 </html>

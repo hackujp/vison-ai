@@ -14,7 +14,7 @@ function buildJSONRequestImgUrl(imgUrl) {
           imageUri: imgUrl
         }
       },
-      // - type: VisionAPIで使用する機能を指定
+      // - type: VisonAPIで使用する機能を指定
       //   - 詳しくはこちら https://cloud.google.com/vision/docs/reference/rest/v1/Feature
       // - maxResults: 結果を何件取得するか
       features: [{
